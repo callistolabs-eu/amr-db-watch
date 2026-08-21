@@ -14,9 +14,9 @@ jobs:
   archive:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: coursier/setup-action@v1
+      - uses: coursier/setup-action@v3
         with:
           apps: scala-cli
 
@@ -25,14 +25,22 @@ jobs:
         # start inside an ephemeral runner and times out after 30s.
         run: scala-cli run --server=false archive.scala
 
-      - name: Commit any new snapshot
+      - name: Commit the check, and any new snapshot
         run: |
           if [ -z "$(git status --porcelain)" ]; then
-            echo "no new database version"
+            echo "nothing to commit (unexpected: every check appends to checks.log)"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # New versions land under snapshots/; a run that only touched checks.log
+          # observed no change, and is committed anyway so the record shows the gap
+          # was watched — and so the repository stays active enough for cron to live.
+          NEW=$(git status --porcelain snapshots/ | awk '{print $2}' | cut -d/ -f2-3 | sort -u | tr '\n' ' ')
           git add -A
-          git commit -m "snapshot: $(git status --porcelain | awk '{print $2}' | cut -d/ -f2-3 | sort -u | tr '\n' ' ')"
+          if [ -n "$NEW" ]; then
+            git commit -m "snapshot: $NEW"
+          else
+            git commit -m "check: no change ($(date -u +%Y-%m-%d))"
+          fi
           git push

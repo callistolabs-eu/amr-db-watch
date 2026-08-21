@@ -1,5 +1,7 @@
 # amr-db-archive
 
+[![archive AMR databases](https://github.com/callistolabs-eu/amr-db-archive/actions/workflows/archive.yml/badge.svg)](https://github.com/callistolabs-eu/amr-db-archive/actions/workflows/archive.yml)
+
 Record of which version of each AMR reference database was current on which date, with checksums.
 
 This exists because the [AMR living benchmark](https://www.callistolabs.eu) measures something no
@@ -22,10 +24,15 @@ Roughly **8 MB per full round** of new releases; at observed upstream cadence, w
 ## Layout
 
 ```
-index.tsv                                  append-only log: when, source, version, url
+index.tsv                                   append-only: one row per new release
+checks.log                                  append-only: one row per check, changed or not
 snapshots/<source>/<version>/manifest.json  version, release date, checksums, file listing
 snapshots/<source>/<version>/<files>        mirrored files, where any
 ```
+
+`index.tsv` answers *what was released and when*; `checks.log` answers *when did we look* —
+so a long quiet stretch is visibly an observed absence of releases rather than an unnoticed
+gap in the record.
 
 `manifest.json` is the durable artifact: source URL, release date, and a SHA-256 for every
 mirrored file, so a later re-download can be proven identical to what was current that day.
@@ -41,9 +48,13 @@ Idempotent: a version already recorded is skipped, so it is safe to run as often
 A source that fails does not stop the others — a missed check is a gap that cannot be filled
 later — and the run exits non-zero so the failure is visible.
 
-CI runs it weekly and commits only when something new appeared (`.github/workflows/archive.yml`).
-Upstream cadence is much slower than weekly; the frequent check just bounds how late a release
-is noticed.
+CI runs it weekly (`.github/workflows/archive.yml`) and commits every check. Upstream cadence
+is much slower than weekly; the frequent check bounds how late a release is noticed, and the
+commit keeps the repository active — GitHub disables scheduled workflows after 60 days of
+inactivity, which is shorter than the observed gap between some AMRFinderPlus releases.
+
+The badge above is the health signal that matters: this archive is only worth citing if the
+weekly check never silently stopped.
 
 ## Observed upstream cadence
 

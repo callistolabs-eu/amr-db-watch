@@ -26,6 +26,7 @@ import scala.util.{Try, Using}
 val Root = os.pwd
 val SnapshotDir = Root / "snapshots"
 val IndexFile = Root / "index.tsv"
+val ChecksFile = Root / "checks.log"
 
 /** Files small and interpretable enough to be worth mirroring. AMR.LIB (~103 MB of
   * HMMs) is deliberately excluded: it is upstream-stable and never read by hand. */
@@ -98,6 +99,15 @@ object Manifest:
 def alreadyRecorded(source: String, version: String): Boolean =
   os.exists(SnapshotDir / source / version / "manifest.json")
 
+/** Every check is logged, not just every release. Two reasons: it is evidence that
+  * the record has no unobserved gaps, and the resulting commit keeps the repository
+  * active — GitHub disables scheduled workflows after 60 days of inactivity, which
+  * is shorter than the interval between some upstream releases. */
+def logCheck(source: String, version: String, status: String): Unit =
+  if !os.exists(ChecksFile) then
+    os.write(ChecksFile, "checked_at\tsource\tversion\tstatus\n")
+  os.write.append(ChecksFile, s"$now\t$source\t$version\t$status\n")
+
 def record(m: Manifest, blobs: Seq[(String, Array[Byte])]): Unit =
   val dir = SnapshotDir / m.source / m.version
   os.makeDir.all(dir)
@@ -107,6 +117,7 @@ def record(m: Manifest, blobs: Seq[(String, Array[Byte])]): Unit =
   if !os.exists(IndexFile) then
     os.write(IndexFile, "checked_at\tsource\tversion\trelease_date\turl\n")
   os.write.append(IndexFile, row.mkString("\t") + "\n")
+  logCheck(m.source, m.version, "new")
   println(s"  recorded ${m.source} ${m.version} (${blobs.size} files mirrored)")
 
 def now: String = Instant.now().toString
@@ -155,6 +166,7 @@ def archiveAmrFinder(): Unit =
   val base = s"$AmrFinderBase/$newestMinor/$release"
 
   if alreadyRecorded("amrfinderplus", version) then
+    logCheck("amrfinderplus", version, "unchanged")
     println(s"  $version already recorded")
   else
     val listing = ncbiEntries(s"$base/")
@@ -180,7 +192,9 @@ def archiveCard(): Unit =
   val bytes = getBytes(CardLatest)
   val digest = sha256(bytes)
   val version = cardVersion(bytes).getOrElse(s"sha-${digest.take(12)}")
-  if alreadyRecorded("card", version) then println(s"  $version already recorded")
+  if alreadyRecorded("card", version) then
+    logCheck("card", version, "unchanged")
+    println(s"  $version already recorded")
   else
     record(
       Manifest(
@@ -215,7 +229,9 @@ def archiveResFinder(): Unit =
   val hash = head("hash").str
   val date = head("date").str.take(10)
   val version = s"$date-${hash.take(12)}"
-  if alreadyRecorded("resfinder", version) then println(s"  $version already recorded")
+  if alreadyRecorded("resfinder", version) then
+    logCheck("resfinder", version, "unchanged")
+    println(s"  $version already recorded")
   else
     record(
       Manifest(
@@ -247,6 +263,7 @@ def archiveResFinder(): Unit =
       case Some(fn) =>
         // One broken source must not stop the others: a missed check is data lost forever.
         Try(fn()).failed.foreach { e =>
+          logCheck(name, "", "failed")
           System.err.println(s"$name FAILED: ${e.getMessage}")
           failed += 1
         }
