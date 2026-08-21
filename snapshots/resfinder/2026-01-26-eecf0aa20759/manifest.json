@@ -1,0 +1,12 @@
+{
+  "source": "resfinder",
+  "version": "2026-01-26-eecf0aa20759",
+  "releaseDate": "2026-01-26",
+  "sourceUrl": "https://bitbucket.org/genomicepidemiology/resfinder_db/commits/eecf0aa207594fe6d51badf808473de62b28cb06",
+  "checkedAt": "2026-08-21T16:24:51.096249Z",
+  "mirrored": [],
+  "listing": [
+    "commit\teecf0aa207594fe6d51badf808473de62b28cb06",
+    "message\tfixed notes"
+  ]
+}

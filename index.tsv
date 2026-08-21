@@ -1,0 +1,4 @@
+checked_at	source	version	release_date	url
+2026-08-21T16:24:45.345561Z	amrfinderplus	4.2_2026-08-07.1	2026-08-07	https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/4.2/2026-08-07.1/
+2026-08-21T16:24:50.410545Z	card	4.0.2	Wed, 12 Aug 2026 19:24:35 GMT	https://card.mcmaster.ca/latest/data
+2026-08-21T16:24:51.096249Z	resfinder	2026-01-26-eecf0aa20759	2026-01-26	https://bitbucket.org/genomicepidemiology/resfinder_db/commits/eecf0aa207594fe6d51badf808473de62b28cb06

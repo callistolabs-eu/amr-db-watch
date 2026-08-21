@@ -1,0 +1,81 @@
+{
+  "source": "amrfinderplus",
+  "version": "4.2_2026-08-07.1",
+  "releaseDate": "2026-08-07",
+  "sourceUrl": "https://ftp.ncbi.nlm.nih.gov/pathogen/Antimicrobial_resistance/AMRFinderPlus/database/4.2/2026-08-07.1/",
+  "checkedAt": "2026-08-21T16:24:45.345561Z",
+  "mirrored": [
+    {
+      "name": "ReferenceGeneCatalog.txt",
+      "bytes": 2330416,
+      "sha256": "fa41ade01712841e639c91163243bace1c34755b927e69e0c8678540268a7fd4"
+    },
+    {
+      "name": "ReferenceGeneHierarchy.txt",
+      "bytes": 1278884,
+      "sha256": "7331c0fdd8a9dcb1400a043ffef84912728624fca0c2d5e0747a605ac09c8882"
+    },
+    {
+      "name": "AMRProt-mutation.tsv",
+      "bytes": 204779,
+      "sha256": "b6f441972d1753a0cc9b1a4d317950eb085e3a52bea8b6d82e0ff53b15280f7b"
+    },
+    {
+      "name": "AMRProt-susceptible.tsv",
+      "bytes": 8080,
+      "sha256": "5e98b47833a4770e2262a91ef23474c40b53b8acd0aea196f26f287a98978bb0"
+    },
+    {
+      "name": "AMRProt-suppress.tsv",
+      "bytes": 494,
+      "sha256": "2b713905b359b464260526bde24ab53218a1f7c59f1c020d49fc3338d7293697"
+    }
+  ],
+  "listing": [
+    "changelogs/\t-1",
+    "AMR.LIB\t108003328",
+    "AMRProt-mutation.tsv\t204800",
+    "AMRProt-suppress.tsv\t494",
+    "AMRProt-susceptible.fa\t30720",
+    "AMRProt-susceptible.tsv\t8089",
+    "AMRProt.fa\t4718592",
+    "AMR_CDS.fa\t11534336",
+    "AMR_DNA-Acinetobacter_baumannii.fa\t303",
+    "AMR_DNA-Acinetobacter_baumannii.tsv\t538",
+    "AMR_DNA-Bordetella_pertussis.fa\t2969",
+    "AMR_DNA-Bordetella_pertussis.tsv\t347",
+    "AMR_DNA-Campylobacter.fa\t6963",
+    "AMR_DNA-Campylobacter.tsv\t1638",
+    "AMR_DNA-Clostridioides_difficile.fa\t3481",
+    "AMR_DNA-Clostridioides_difficile.tsv\t510",
+    "AMR_DNA-Enterococcus_faecalis.fa\t2969",
+    "AMR_DNA-Enterococcus_faecalis.tsv\t446",
+    "AMR_DNA-Enterococcus_faecium.fa\t2969",
+    "AMR_DNA-Enterococcus_faecium.tsv\t444",
+    "AMR_DNA-Escherichia.fa\t7782",
+    "AMR_DNA-Escherichia.tsv\t8294",
+    "AMR_DNA-Klebsiella_oxytoca.fa\t166",
+    "AMR_DNA-Klebsiella_oxytoca.tsv\t848",
+    "AMR_DNA-Klebsiella_pneumoniae.fa\t365",
+    "AMR_DNA-Klebsiella_pneumoniae.tsv\t355",
+    "AMR_DNA-Neisseria_gonorrhoeae.fa\t6144",
+    "AMR_DNA-Neisseria_gonorrhoeae.tsv\t2355",
+    "AMR_DNA-Salmonella.fa\t1638",
+    "AMR_DNA-Salmonella.tsv\t462",
+    "AMR_DNA-Staphylococcus_aureus.fa\t3379",
+    "AMR_DNA-Staphylococcus_aureus.tsv\t1945",
+    "AMR_DNA-Streptococcus_pneumoniae.fa\t2969",
+    "AMR_DNA-Streptococcus_pneumoniae.tsv\t914",
+    "ReferenceGeneCatalog.txt\t2306867",
+    "ReferenceGeneHierarchy.txt\t1258291",
+    "amr_targets.fa\t1677721",
+    "changelog.txt\t18432",
+    "changes.txt\t18432",
+    "database_format_version.txt\t6",
+    "fam.tsv\t340992",
+    "mapgenelist.txt\t227328",
+    "taxgroup.tsv\t1536",
+    "version.txt\t13",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html\t-1"
+  ]
+}

@@ -1,0 +1,36 @@
+name: archive AMR databases
+
+on:
+  schedule:
+    # Weekly. Upstream releases are far rarer (AMRFinderPlus ~every 2 months,
+    # CARD ~2x/year), but a cheap weekly check bounds how late a release is noticed.
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: coursier/setup-action@v1
+        with:
+          apps: scala-cli
+
+      - name: Check upstream and record new versions
+        run: scala-cli run archive.scala
+
+      - name: Commit any new snapshot
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "no new database version"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "snapshot: $(git status --porcelain | awk '{print $2}' | cut -d/ -f2-3 | sort -u | tr '\n' ' ')"
+          git push

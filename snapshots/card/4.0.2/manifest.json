@@ -1,0 +1,15 @@
+{
+  "source": "card",
+  "version": "4.0.2",
+  "releaseDate": "Wed, 12 Aug 2026 19:24:35 GMT",
+  "sourceUrl": "https://card.mcmaster.ca/latest/data",
+  "checkedAt": "2026-08-21T16:24:50.410545Z",
+  "mirrored": [
+    {
+      "name": "card-data.tar.bz2",
+      "bytes": 4366637,
+      "sha256": "94b89501fc26daafbe65e4151c17a8b007dc1272c4f8201737e44e44cdd4c065"
+    }
+  ],
+  "listing": []
+}
