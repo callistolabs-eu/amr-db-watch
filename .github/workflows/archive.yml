@@ -21,7 +21,9 @@ jobs:
           apps: scala-cli
 
       - name: Check upstream and record new versions
-        run: scala-cli run archive.scala
+        # --server=false compiles in-process: the Bloop build server cannot reliably
+        # start inside an ephemeral runner and times out after 30s.
+        run: scala-cli run --server=false archive.scala
 
       - name: Commit any new snapshot
         run: |
